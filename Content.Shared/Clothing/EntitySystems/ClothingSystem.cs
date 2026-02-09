@@ -43,7 +43,7 @@ public abstract class ClothingSystem : EntitySystem
 
         QuickEquip(ent, (user, inv, hands));
         args.Handled = true;
-        args.ApplyDelay = false;
+        // args.ApplyDelay = false;
     }
 
     private void QuickEquip(
