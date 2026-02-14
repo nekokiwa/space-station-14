@@ -244,9 +244,7 @@ public abstract class SharedGenpopSystem : EntitySystem
     private void OnLockerExamine(Entity<GenpopLockerComponent> ent, ref ExaminedEvent args)
     {
         if (!TryComp<GenpopIdCardComponent>(ent.Comp.LinkedId, out var genpopId))
-        {
             return;
-        }
         // This component holds the contextual data for the sentence end time and other such things.
         if (!TryComp<ExpireIdCardComponent>(ent.Comp.LinkedId, out var expireIdCard))
             return;
