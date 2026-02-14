@@ -37,6 +37,7 @@ public abstract class SharedGenpopSystem : EntitySystem
         SubscribeLocalEvent<GenpopLockerComponent, LockToggleAttemptEvent>(OnLockToggleAttempt);
         SubscribeLocalEvent<GenpopLockerComponent, LockToggledEvent>(OnLockToggled);
         SubscribeLocalEvent<GenpopLockerComponent, GetVerbsEvent<Verb>>(OnGetVerbs);
+        SubscribeLocalEvent<GenpopLockerComponent, ExaminedEvent>(OnLockerExamine);
         SubscribeLocalEvent<GenpopIdCardComponent, ExaminedEvent>(OnExamine);
 
         Subs.CVar(_cfgManager, CCVars.MaxIdJobLength, value => _maxIdJobLength = value, true);
@@ -236,6 +237,43 @@ public abstract class SharedGenpopSystem : EntitySystem
                     ("seconds", served.Seconds),
                     ("sentence", sentence.TotalMinutes),
                     ("crime", ent.Comp.Crime)));
+            }
+        }
+    }
+
+    private void OnLockerExamine(Entity<GenpopLockerComponent> ent, ref ExaminedEvent args)
+    {
+        if (!TryComp<GenpopIdCardComponent>(ent.Comp.LinkedId, out var genpopId))
+        {
+            return;
+        }
+        // This component holds the contextual data for the sentence end time and other such things.
+        if (!TryComp<ExpireIdCardComponent>(ent.Comp.LinkedId, out var expireIdCard))
+            return;
+
+        //Localisation strings should be added referring to the prisoner instead of the reader.
+        if (expireIdCard.Permanent)
+        {
+            args.PushText(Loc.GetString("genpop-prisoner-id-examine-wait-perm",
+                ("crime", genpopId.Crime)));
+        }
+        else
+        {
+            if (expireIdCard.Expired)
+            {
+                args.PushText(Loc.GetString("genpop-prisoner-id-examine-served",
+                    ("crime", genpopId.Crime)));
+            }
+            else
+            {
+                var sentence = genpopId.SentenceDuration;
+                var served = genpopId.SentenceDuration - (expireIdCard.ExpireTime - Timing.CurTime);
+
+                args.PushText(Loc.GetString("genpop-prisoner-id-examine-wait",
+                    ("minutes", served.Minutes),
+                    ("seconds", served.Seconds),
+                    ("sentence", sentence.TotalMinutes),
+                    ("crime", genpopId.Crime)));
             }
         }
     }
