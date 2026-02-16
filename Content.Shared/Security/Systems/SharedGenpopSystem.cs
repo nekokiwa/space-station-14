@@ -249,17 +249,16 @@ public abstract class SharedGenpopSystem : EntitySystem
         if (!TryComp<ExpireIdCardComponent>(ent.Comp.LinkedId, out var expireIdCard))
             return;
 
-        //TODO: Localisation strings should be added referring to the prisoner instead of the reader.
         if (expireIdCard.Permanent)
         {
-            args.PushText(Loc.GetString("genpop-prisoner-id-examine-wait-perm",
+            args.PushText(Loc.GetString("genpop-locker-examine-wait-perm",
                 ("crime", genpopId.Crime)));
         }
         else
         {
             if (expireIdCard.Expired)
             {
-                args.PushText(Loc.GetString("genpop-prisoner-id-examine-served",
+                args.PushText(Loc.GetString("genpop-locker-examine-served",
                     ("crime", genpopId.Crime)));
             }
             else
@@ -267,7 +266,7 @@ public abstract class SharedGenpopSystem : EntitySystem
                 var sentence = genpopId.SentenceDuration;
                 var served = genpopId.SentenceDuration - (expireIdCard.ExpireTime - Timing.CurTime);
 
-                args.PushText(Loc.GetString("genpop-prisoner-id-examine-wait",
+                args.PushText(Loc.GetString("genpop-locker-examine-wait",
                     ("minutes", served.Minutes),
                     ("seconds", served.Seconds),
                     ("sentence", sentence.TotalMinutes),
