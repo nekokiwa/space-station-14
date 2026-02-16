@@ -249,7 +249,7 @@ public abstract class SharedGenpopSystem : EntitySystem
         if (!TryComp<ExpireIdCardComponent>(ent.Comp.LinkedId, out var expireIdCard))
             return;
 
-        //Localisation strings should be added referring to the prisoner instead of the reader.
+        //TODO: Localisation strings should be added referring to the prisoner instead of the reader.
         if (expireIdCard.Permanent)
         {
             args.PushText(Loc.GetString("genpop-prisoner-id-examine-wait-perm",
