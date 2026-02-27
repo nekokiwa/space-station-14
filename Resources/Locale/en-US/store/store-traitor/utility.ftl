@@ -80,5 +80,5 @@ uplink-cameraBug-name = Camera bug
 uplink-cameraBug-desc = A portable device that allows you to view the station's cameras.
 
 uplink-hypodart-name = Hypodart
-uplink-hypodart-desc = A seemingly unremarkable dart with an enlarged reservoir for chemicals. It can store up to 7u reagents in itself, and instantly inject when it hits the target. Starts empty.
+uplink-hypodart-desc = A seemingly unremarkable dart with an enlarged reservoir for chemicals. It can store up to 10u reagents in itself, and instantly inject when it hits the target. Starts empty.
 
